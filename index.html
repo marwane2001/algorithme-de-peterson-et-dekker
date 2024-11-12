@@ -3,38 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation - Algorithmes de Peterson et Dekker</title>
+    <title>Documentation : Algorithmes de Peterson et Dekker</title>
     <style>
+        /* Basic styling for body and headings */
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
             background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
             margin: 0;
             padding: 20px;
         }
         h1 {
             text-align: center;
-            color: #005f9e;
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 20px;
         }
         h2 {
-            color: #333;
-            border-bottom: 2px solid #005f9e;
+            color: #2c3e50;
+            font-size: 1.5em;
+            border-bottom: 2px solid #3498db;
             padding-bottom: 5px;
+            margin-top: 40px;
         }
+        /* Section styling for boxed look */
         section {
-            margin-bottom: 20px;
             background: #fff;
-            padding: 15px;
-            border-radius: 5px;
+            padding: 20px;
+            border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
+        /* Emphasizing key elements */
+        strong {
+            color: #2980b9;
+        }
+        /* Styling unordered lists */
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        /* Code block styling */
         .code-block {
-            background: #f5f5f5;
-            padding: 10px;
-            border-radius: 5px;
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
             font-family: Consolas, Monaco, monospace;
+            font-size: 0.9em;
             white-space: pre-wrap;
+            margin: 20px 0;
+            overflow: auto;
         }
     </style>
 </head>
@@ -46,35 +68,35 @@
         <h2>1. Introduction à la Concurrence et à l'Exclusion Mutuelle</h2>
         <p><strong>Contexte :</strong></p>
         <ul>
-            <li><strong>Concurrence</strong> : Dans les systèmes informatiques modernes, plusieurs programmes ou tâches sont souvent exécutés en parallèle, soit via un système multi-tâches, soit sur des multi-processeurs.</li>
-            <li><strong>Problème</strong> : Quand deux processus accèdent simultanément à la même ressource, des interférences peuvent se produire, risquant de corrompre les données.</li>
+            <li><strong>Concurrence</strong> : Dans les systèmes informatiques modernes, plusieurs programmes ou tâches sont souvent exécutés en même temps, ce qui peut être dû aux systèmes multi-tâches ou aux systèmes multi-processeurs.</li>
+            <li><strong>Problème</strong> : Lorsque deux processus tentent d’accéder à la même ressource, il peut y avoir des interférences, risquant de corrompre les données.</li>
         </ul>
         <p><strong>Contenu :</strong></p>
         <ul>
-            <li><strong>Exclusion mutuelle</strong> : Garantir qu’un seul processus accède à une ressource partagée à la fois, pour éviter des conflits.</li>
-            <li><strong>Objectif des algorithmes de synchronisation</strong> : Contrôler l'accès aux ressources partagées de façon ordonnée, pour éviter les conflits.</li>
+            <li><strong>Exclusion mutuelle</strong> : Un seul processus à la fois peut accéder à une ressource partagée ou à une section critique du code.</li>
+            <li><strong>Objectif des algorithmes de synchronisation</strong> : Les algorithmes de synchronisation (comme ceux de Peterson et Dekker) visent à gérer l’accès aux ressources partagées de manière ordonnée.</li>
         </ul>
     </section>
 
     <section>
         <h2>2. Présentation de l'Algorithme de Dekker</h2>
-        <p><strong>Contexte :</strong> L'algorithme de Dekker, proposé par Theodorus Dekker dans les années 1960, est l'une des premières solutions d'exclusion mutuelle.</p>
+        <p><strong>Contexte :</strong> L'algorithme de Dekker, proposé dans les années 1960 par Theodorus Dekker, est l'une des premières solutions pour l'exclusion mutuelle.</p>
         <p><strong>Contenu :</strong></p>
         <ul>
             <li><strong>Principe de fonctionnement</strong> :
                 <ul>
-                    <li>Dekker utilise deux variables booléennes (ou <em>flags</em>) pour signaler l’intention d’entrer dans la section critique, et une variable <em>tour</em> pour gérer les conflits.</li>
+                    <li>Dekker utilise deux <em>flags</em> pour indiquer l’intention d’entrer dans la section critique et une variable <em>tour</em> pour gérer les conflits.</li>
                 </ul>
             </li>
             <li><strong>Étapes de l'algorithme</strong> :
                 <ul>
                     <li>Chaque processus active son <em>flag</em> pour signaler son intention.</li>
-                    <li>Si les deux processus activent leur <em>flag</em> simultanément, le <em>tour</em> décide qui entre en premier.</li>
+                    <li>En cas de conflit, la variable <em>tour</em> décide de la priorité d’accès.</li>
                 </ul>
             </li>
             <li><strong>Caractéristiques</strong> :
                 <ul>
-                    <li>Assure l'exclusion mutuelle et la vivacité.</li>
+                    <li>Exclusion mutuelle et vivacité assurées.</li>
                 </ul>
             </li>
         </ul>
@@ -82,12 +104,12 @@
 
     <section>
         <h2>3. Présentation de l'Algorithme de Peterson</h2>
-        <p><strong>Contexte :</strong> L'algorithme de Peterson, développé par Gary Peterson dans les années 1980, améliore la logique de Dekker en simplifiant son application et en garantissant les mêmes résultats.</p>
+        <p><strong>Contexte :</strong> L'algorithme de Peterson, développé par Gary Peterson dans les années 1980, est une amélioration plus simple de l'algorithme de Dekker.</p>
         <p><strong>Contenu :</strong></p>
         <ul>
             <li><strong>Principe de fonctionnement</strong> :
                 <ul>
-                    <li>Peterson utilise un tableau de <em>flags</em> pour signaler l’intention des processus, ainsi qu'une variable <em>tour</em> pour déterminer la priorité.</li>
+                    <li>Peterson utilise un tableau de <em>flags</em> pour indiquer l’intention d’un processus, et une variable <em>tour</em> pour la priorité.</li>
                 </ul>
             </li>
             <li><strong>Étapes de l'algorithme</strong> :
@@ -97,25 +119,26 @@
             </li>
             <li><strong>Caractéristiques</strong> :
                 <ul>
-                    <li>Assure l'exclusion mutuelle et l'absence de famine.</li>
+                    <li>Exclusion mutuelle et absence de famine garanties.</li>
                 </ul>
             </li>
+            <li><strong>Pourquoi Peterson est meilleur</strong> : Plus simple, logique intuitive, et facile à vérifier.</li>
         </ul>
     </section>
 
     <section>
         <h2>4. Comparaison entre Dekker et Peterson</h2>
-        <p><strong>Contexte :</strong> Cette section explique pourquoi Peterson est souvent préféré et ses différences clés avec Dekker.</p>
+        <p><strong>Contexte :</strong> Cette section examine pourquoi l'algorithme de Peterson est souvent préféré et ses différences avec Dekker.</p>
         <p><strong>Contenu :</strong></p>
         <ul>
-            <li><strong>Simplicité</strong> : Peterson est plus facile à comprendre et à mettre en œuvre.</li>
+            <li><strong>Simplicité</strong> : Peterson est plus simple à comprendre et mettre en œuvre.</li>
             <li><strong>Correction formelle</strong> : Plus facile à prouver correct grâce à sa simplicité.</li>
         </ul>
     </section>
 
     <section>
         <h2>5. Exemples en Code</h2>
-        <p><strong>Contexte :</strong> Ces exemples de code illustrent le fonctionnement de chaque algorithme.</p>
+        <p><strong>Contexte :</strong> Exemples de code pour illustrer le fonctionnement de chaque algorithme.</p>
         <p><strong>Algorithme de Dekker :</strong></p>
         <div class="code-block">
             flag = [False, False]<br>
@@ -143,7 +166,7 @@
 
     <section>
         <h2>6. Analyse des Propriétés</h2>
-        <p>Les deux algorithmes garantissent l'exclusion mutuelle et l'équité. Cependant, Peterson est plus facile à prouver correct en raison de sa simplicité.</p>
+        <p>Les deux algorithmes garantissent l'exclusion mutuelle et l'équité. Peterson est plus facile à prouver correct en raison de sa simplicité.</p>
     </section>
 
     <section>
