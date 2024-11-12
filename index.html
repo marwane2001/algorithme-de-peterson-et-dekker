@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithme de Peterson et Dekker</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
+        h1, h2 { color: #333; }
+        h1 { text-align: center; }
+        section { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <h1>Présentation : Algorithmes de Peterson et Dekker</h1>
+
+    <section>
+        <h2>1. Introduction à la Concurrence et à l'Exclusion Mutuelle</h2>
+        <p>La <strong>concurrence</strong> dans les systèmes informatiques implique l'exécution de plusieurs programmes en parallèle. Cela peut poser des problèmes si deux processus accèdent à la même ressource (variable ou fichier) simultanément, risquant de créer des interférences et des comportements imprévisibles.</p>
+        <p><strong>Exclusion mutuelle</strong> : Un processus à la fois doit accéder à la ressource partagée ou à la section critique pour éviter ces conflits.</p>
+    </section>
+
+    <section>
+        <h2>2. Présentation de l'Algorithme de Dekker</h2>
+        <p><strong>Historique</strong> : L'algorithme de Dekker, proposé dans les années 1960, est une des premières solutions pour l'exclusion mutuelle. Il permet à deux processus d'accéder de manière exclusive à une section critique.</p>
+        <p><strong>Fonctionnement</strong> : Dekker utilise deux variables booléennes (<em>flags</em>) et une variable <em>tour</em> pour gérer l'accès. Un processus signale son intention via son <em>flag</em> et utilise <em>tour</em> en cas de conflit pour déterminer qui entre en premier.</p>
+    </section>
+
+    <section>
+        <h2>3. Présentation de l'Algorithme de Peterson</h2>
+        <p><strong>Historique</strong> : Proposé par Gary Peterson dans les années 1980, cet algorithme est une amélioration de Dekker. Il est plus simple à implémenter et garantit la même sécurité d'accès exclusif.</p>
+        <p><strong>Fonctionnement</strong> : Peterson utilise un tableau de <em>flags</em> et une variable <em>tour</em> pour gérer les intentions et priorités des processus de manière efficace.</p>
+    </section>
+
+    <section>
+        <h2>4. Comparaison entre Dekker et Peterson</h2>
+        <p><strong>Simplicité</strong> : Peterson est plus simple et nécessite moins de conditions logiques. Dekker est plus complexe mais atteint le même objectif.</p>
+    </section>
+
+    <section>
+        <h2>5. Exemples en Code</h2>
+        <pre>
+Algorithme de Dekker :
+flag = [False, False]
+tour = 0
+
+def enter_critical_section(i):
+    flag[i] = True
+    while flag[1 - i]:
+        if tour != i:
+            flag[i] = False
+            while tour != i:
+                pass
+            flag[i] = True
+        </pre>
+        <pre>
+Algorithme de Peterson :
+flag = [False, False]
+tour = 0
+
+def enter_critical_section(i):
+    flag[i] = True
+    tour = 1 - i
+    while flag[1 - i] and tour == 1 - i:
+        pass
+        </pre>
+    </section>
+
+    <section>
+        <h2>6. Analyse des Propriétés</h2>
+        <p>Les deux algorithmes garantissent l'exclusion mutuelle et l'équité. Cependant, Peterson est plus facile à prouver correct.</p>
+    </section>
+
+    <section>
+        <h2>7. Limites et Alternatives Modernes</h2>
+        <p>Ces algorithmes sont conçus pour deux processus. Pour les systèmes complexes, on utilise des sémaphores, des <em>mutex</em>, ou des spinlocks, plus adaptés aux environnements multi-processus modernes.</p>
+    </section>
+
+    <section>
+        <h2>8. Conclusion</h2>
+        <p>Les algorithmes de Peterson et Dekker sont des solutions pionnières pour la synchronisation concurrente, mais sont désormais limités aux environnements simples. Ils restent néanmoins essentiels pour comprendre la base de la synchronisation en informatique.</p>
+    </section>
+
+</body>
+</html>
